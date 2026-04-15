@@ -227,33 +227,79 @@ def monitor(price):
             return
 
 # ================= MAIN LOOP ================= #
+def calculate_signal(data):
+    rsi = data["rsi"]
+    ema20 = data["ema20"]
+    ema50 = data["ema50"]
+    macd = data["macd"]
+    price = data["price"]
+
+    score = 0
+
+    # EMA trend
+    if ema20 > ema50:
+        score += 1
+    else:
+        score -= 1
+
+    # RSI logic
+    if rsi < 30:
+        score += 2
+    elif rsi > 70:
+        score -= 2
+
+    # MACD momentum
+    if macd > 0:
+        score += 1
+    else:
+        score -= 1
+
+    # decision
+    if score >= 3:
+        return "BUY 📈", "Strong", "A+", score
+    elif score == 2:
+        return "BUY 📈", "Medium", "A", score
+    elif score <= -3:
+        return "SELL 📉", "Strong", "A+", score
+    elif score == -2:
+        return "SELL 📉", "Medium", "A", score
+    else:
+        return "HOLD ⏸", "Weak", "B", score
 def run_bot():
     while True:
 
-        data = get_data()
+        data = {
+            "price": 21878,
+            "rsi": 72,
+            "ema20": 22000,
+            "ema50": 21500,
+            "macd": 1.5
+        }
 
-        if not data:
-            time.sleep(60)
+        signal, strength, grade, score = calculate_signal(data)
+
+        # 🚫 skip weak signals
+        if grade == "B":
             continue
 
-        price = data[-1]
+        message = f"""
+🤖 SNIPER FOREX BOT
+📅 Gold | BTC/USD | EUR/USD
+────────────────────────────
 
-        monitor(price)
+💰 Price: {data['price']}
+📊 RSI: {data['rsi']}
+📈 EMA20: {data['ema20']}
+📉 EMA50: {data['ema50']}
+⚡ MACD: {data['macd']}
+🎯 Score: {score}
 
-        if state["active_trade"]:
-            time.sleep(60)
-            continue
+🚦 Signal: {signal}
+💪 Strength: {strength}
+🏷 Grade: {grade}
+"""
 
-        score = sniper_score(data)
-        grade_val = grade(score)
-        sig = signal(score)
-
-        if sig and grade_val:
-            open_trade(sig, price, grade_val)
-
-        save()
-        time.sleep(900)
-
+        send(message)
 # ================= DASHBOARD ================= #
 @app.route("/")
 def home():
