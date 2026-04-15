@@ -297,7 +297,6 @@ def run_bot():
 
 if not data:
     continue
-    }
     while True:
 
         data = {
