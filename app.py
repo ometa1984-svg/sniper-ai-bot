@@ -267,6 +267,7 @@ def calculate_signal(data):
     else:
         return "HOLD ⏸", "Weak", "B", score
 def run_bot():
+    
     def get_live_data(symbol="XAU/USD"):
     url = f"https://api.twelvedata.com/time_series?symbol={symbol}&interval=1h&outputsize=50&apikey={API_KEY}"
 
