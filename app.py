@@ -266,6 +266,7 @@ def calculate_signal(data):
     else:
         return "HOLD ⏸", "Weak", "B", score
 def run_bot():
+    send("🔥 BOT LOOP ACTIVE")
     while True:
 
         data = {
