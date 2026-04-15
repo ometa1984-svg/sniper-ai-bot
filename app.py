@@ -274,7 +274,7 @@ def data():
     return jsonify(state)
 
 # ================= START ================= #
-)if __name__ == "__main__":
+if __name__ == "__main__":
     import threading
 
     def start_bot():
