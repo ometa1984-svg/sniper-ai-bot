@@ -1,4 +1,4 @@
-            import requests, time, json, os, datetime
+import requests, time, json, os, datetime
 from flask import Flask, jsonify, render_template_string
 import threading
 
@@ -55,7 +55,7 @@ def get_data():
     if now - last_fetch < 600 and cache:
         return cache
 
-    url = f"https://api.twelvedata.com/time_series?symbol={SYMBOL}&interval=1h&outputsize=100&apikey=6ee724777f5a43ec8859988f2e99cb12"
+    url = f"https://api.twelvedata.com/time_series?symbol={SYMBOL}&interval=1h&outputsize=100&apikey="6ee724777f5a43ec8859988f2e99cb12"
 
     r = requests.get(url).json()
 
@@ -272,13 +272,9 @@ def home():
 @app.route("/data")
 def data():
     return jsonify(state)
+
 # ================= START ================= #
 if __name__ == "__main__":
-    import threading
-
-    def start_bot():
-        run_bot()
-
-    threading.Thread(target=start_bot, daemon=True).start()
-
+    send("🤖 SNIPER QUANT AI STARTED")
+    threading.Thread(target=run_bot).start()
     app.run(host="0.0.0.0", port=10000)
