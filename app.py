@@ -1,3 +1,4 @@
+import requests
 import requests, time, json, os, datetime
 from flask import Flask, jsonify, render_template_string
 import threading
@@ -266,7 +267,37 @@ def calculate_signal(data):
     else:
         return "HOLD ⏸", "Weak", "B", score
 def run_bot():
-    send("🔥 BOT LOOP ACTIVE")
+    def get_live_data(symbol="XAU/USD"):
+    url = f"https://api.twelvedata.com/time_series?symbol={symbol}&interval=1h&outputsize=50&apikey={API_KEY}"
+
+    response = requests.get(url).json()
+
+    if "values" not in response:
+        return None
+
+    closes = [float(i["close"]) for i in response["values"]]
+
+    price = closes[0]
+
+    # Simple indicator calculations (basic version)
+    ema20 = sum(closes[:20]) / 20
+    ema50 = sum(closes[:50]) / 50 if len(closes) >= 50 else ema20
+
+    # RSI simple approximation
+    gains = [closes[i] - closes[i+1] for i in range(14)]
+    avg_gain = sum([g for g in gains if g > 0]) / 14 if gains else 0
+    avg_loss = abs(sum([g for g in gains if g < 0]) / 14) if gains else 1
+
+    rs = avg_gain / avg_loss if avg_loss != 0 else 0
+    rsi = 100 - (100 / (1 + rs))
+
+    macd = ema20 - ema50
+
+    data = get_live_data("XAU/USD")
+
+if not data:
+    continue
+    }
     while True:
 
         data = {
