@@ -228,7 +228,6 @@ def monitor(price):
 
 # ================= MAIN LOOP ================= #
 def run_bot():
-    send("✅ BOT IS WORKING")
     while True:
 
         data = get_data()
