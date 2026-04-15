@@ -274,7 +274,13 @@ def data():
     return jsonify(state)
 
 # ================= START ================= #
+0)
 if __name__ == "__main__":
-    send("🤖 SNIPER QUANT AI STARTED")
-    threading.Thread(target=run_bot).start()
+    import threading
+
+    def start_bot():
+        run_bot()
+
+    threading.Thread(target=start_bot, daemon=True).start()
+
     app.run(host="0.0.0.0", port=10000)
