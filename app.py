@@ -55,7 +55,7 @@ def get_data():
     if now - last_fetch < 600 and cache:
         return cache
 
-    url = f"https://api.twelvedata.com/time_series?symbol={SYMBOL}&interval=1h&outputsize=100&apikey="6ee724777f5a43ec8859988f2e99cb12"
+    url = f"https://api.twelvedata.com/time_series?symbol={SYMBOL}&interval=1h&outputsize=100&apikey=6ee724777f5a43ec8859988f2e99cb12"
 
     r = requests.get(url).json()
 
