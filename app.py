@@ -23,7 +23,7 @@ def send(message):
 
 # ================= LIVE DATA ================= #
 def get_live_data(symbol="XAU/USD"):
-    url = f"https://api.twelvedata.com/time_series?symbol={symbol}&interval=1h&outputsize=50&apikey={6ee724777f5a43ec8859988f2e99cb12}"
+    url = f"https://api.twelvedata.com/time_series?symbol={symbol}&interval=1h&outputsize=50&apikey={ee724777f5a43ec8859988f2e99cb12}"
 
     response = requests.get(url).json()
 
